@@ -1,23 +1,18 @@
 // ***** ANY CLASSES GO UP TOP ***** 
 
 // I think we'll end up with two - one for each "falling object" allowing for mutliple generation.
-
+// In reviewing car game lab - looks like most if not all is within this start game function
 
 // *** ON WINDOW LOAD -> ANON FUNCTION = EVENT LISTNER ON START-BUTTON -> Start game function ***
 
-// In reviewing car game lab - looks like most if not all is within this start game function
-
-
-console.log('canvas file connected');
-
-window.onload = () => { // <-- DOM structure is not available until window load. 
+window.onload = () => { // <-- DOM structure is not available until window load.
+    console.log('canvas file connected'); 
     document.getElementById('start-button').onclick = () => {
       startGame();
-      console.log('canvas file connected');
     };
 
     // CONTEXT(game area) = 500(height) X 800(width) 
-
+ 
     function startGame() {
         const gameCanvas = document.getElementById('game-space');
         const ctx = gameCanvas.getContext('2d'); // <-- method to obtain rendering context & drawing functions asigned to 'ctx' (so this is our context going forard).
@@ -46,73 +41,21 @@ window.onload = () => { // <-- DOM structure is not available until window load.
             draw: function() { 
                 ctx.drawImage(this.img. this.x, this.y, this.width, this.height)
             },
-    
-
 
         };
-
-    
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     };
 
-    
-
-    //eventually load object images maybe? (donuts and bowling balls etc..) For now we start with shapes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 };
+
+
+// ***** ANY CLASSES GO UP TOP ***** 
+
+// I think we'll end up with two - one for each "falling object" allowing for mutliple generation.
+
+
+// *** ON WINDOW LOAD -> ANON FUNCTION = EVENT LISTNER ON START-BUTTON -> Start game function ***
+
+// In reviewing car game lab - looks like most if not all is within this start game function
