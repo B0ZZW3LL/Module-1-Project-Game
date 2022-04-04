@@ -22,35 +22,27 @@ window.onload = () => {                                                         
         let numFrame = 0;
         scoreCounter.innerText = 0;                                                                     // *** DEFAULT THE SCORE LATER TO 0 IN HTML!!! ***
 
-        /* <-- draw test...
-        function draw () { 
-            ctx.fillStyle = 'red';
-            ctx.fillRect(0, 0, 80, 109);
-        }
-
-        draw();
-        */
-
         const playerImage = new Image();                                                                // <-- we load or player image using the image contstructor - which essentially creates a new element in the DOM.
         playerImage.src = './images/player.png';
 
         const playerObject = {
             img: playerImage,
             x: 460,
-            y: 485, 
+            y: 491, 
             width: 80,
             height: 109,
-            speed: 4,
 
             moveLeft: function(){                                                                       // <-- when called updates the objects x key value (negative = we reduce x = traverse left).
-                this.x -= 2 * this.speed;
+                this.x -= 60;
             },
 
             moveRight: function(){
-                this.x += 2 * this.speed;
+                this.x += 60;
             },
 
-            draw: function() { 
+            draw: function() {
+                if(this.x > 940 ? this.x = 940 : this.x);                                               // <-- Try to keep the player in the game area
+                if(this.x <= 0 ? this.x = 0 : this.x);
                 ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
             },
 
@@ -63,7 +55,7 @@ window.onload = () => {                                                         
 
             playerObject.draw();
 
-            requestAnimationFrame(updateGameCanvas);
+            requestAnimationFrame(updateGameCanvas);                                                    // <-- might want to change to setinterval after to run every 16 milliseconds - smooth out the animations
         };
 
         window.addEventListener('keydown', event => {
