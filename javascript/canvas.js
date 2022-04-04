@@ -96,7 +96,7 @@ window.onload = () => {                                                         
             bottom() {
                 return this.y + this.height;
             },
-            crashWith(aFallingObject){ //access aligned bounding box
+            collision(aFallingObject){ //access aligned bounding box
                 return !(this.bottom() < aFallingObject.topBorder() || this.top() > aFallingObject.bottomBorder() || this.right() < aFallingObject.leftBorder() || this.left() > aFallingObject.rightBorder());
             }
 
@@ -136,7 +136,7 @@ window.onload = () => {                                                         
             }
             
             for(let i = 0; i < fallingObjectArray.length; i++) { 
-                if(playerObject.crashWith(fallingObjectArray[i])) {
+                if(playerObject.collision(fallingObjectArray[i])) {
 
                     if(fallingObjectArray[i].type === 'donut') {                                        // <-- if object collided with was a donut, add points... else it was a bowling ball so remove one from player health. 
                         increaseScore();
@@ -174,8 +174,9 @@ window.onload = () => {                                                         
             }
         });
         
-        window.addEventListener('mousemove', e => {
-            playerObject.x = e.clientX - gameCanvas.width/2;
+        document.addEventListener('mousemove', e => {
+            //playerObject.x = (e.clientX - gameCanvas.width/2)
+            playerObject.x = e.clientX - gameCanvas.width/2
         });
 
        updateGameCanvas();

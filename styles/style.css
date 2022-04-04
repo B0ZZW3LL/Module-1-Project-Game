@@ -1,7 +1,14 @@
 #container {
     display: flex;
+    justify-content: center;
+}
+
+
+#frame {
+    display: flex;
     flex-direction: column;
     align-items: center;
+    width: 1200px;
 }
 
 h1 {
@@ -20,10 +27,34 @@ h4 {
 
 #game-space {
     border: 2px solid blue;
-    background-color: rgb(107, 169, 232, 0.15);
+    background-color: rgba(79, 154, 230, 0.15);
+    border-radius: 60px;
+    border-width: 100px 40px 60px 40px;
+    border-color: red;
+}
+
+#lower-functions {
+    display: flex;
+    justify-content: space-between;
+    border: solid 1px black;
+    width: 1200px;
+    align-items: center;
+    padding-top: -60px;
+}
+
+.circle {
+    background:white;
+    border-radius: 50%;
+    border: 3px solid black;
+    height: 100px;
+    width: 100px;
+    padding-top: -80px;
 }
 
 #start-button {
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin: 10px 0px;
+    width: 200px;
+    height: 60px;
+    border-radius: 10px;
+    background: linear-gradient(#d4ff3b, #fbfcf7)
 }
