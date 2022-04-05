@@ -118,8 +118,6 @@ window.onload = () => {                                                         
             collision(aFallingObject){ 
                 return !(this.bottom() < aFallingObject.topBorder() || this.top() > aFallingObject.bottomBorder() || this.right() < aFallingObject.leftBorder() || this.left() > aFallingObject.rightBorder());
             }
-
-
         }
 
         const fallingObjectArray = [];
