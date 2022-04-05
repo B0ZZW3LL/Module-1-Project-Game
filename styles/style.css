@@ -19,6 +19,10 @@ h1 {
     
 }
 
+h3 {
+    text-decoration: underline;
+}
+
 h4 {
     color: white;
     font-family: 'Digi';
@@ -27,6 +31,22 @@ h4 {
     background-color: black;
     border-radius: 5px;
     font-size: 28px;
+}
+
+#instructions {
+    font-family: 'Permanent Marker', cursive;
+    border: 8px dashed rgba(171, 171, 171, 0.984);
+    font-size: 18px;
+    color:rgb(237, 254, 255);
+    width: 500px;
+    border-radius: 40px;
+    position: fixed;
+    left: 350px;
+    top: 200px;
+    text-align: center;
+    background: radial-gradient(#05836481, #058364e8);
+    padding-top: 8px;
+
 }
 
 #container {
@@ -39,6 +59,7 @@ h4 {
 }
 
 #frame {
+    perspective: 1px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -93,14 +114,16 @@ h4 {
     align-items: center;
     margin-top: 10px;
     padding-bottom: 30px;
+    padding-left: 40px;
+    padding-right: 40px;
 }
 
 .circle {
     background:white;
     border-radius: 50%;
     border: 3px solid black;
-    height: 100px;
-    width: 100px;
+    height: 110px;
+    width: 110px;
 }
 
 #start-button {
@@ -139,6 +162,6 @@ h4 {
     font-style: italic
 }
 
-.hide-heart {
+.hide {
     display: none;
 }

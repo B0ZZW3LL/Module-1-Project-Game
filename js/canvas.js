@@ -2,6 +2,7 @@ let scoreCounter = document.getElementById('score-counter');
 let heart1 = document.getElementById('heart-1');
 let heart2 = document.getElementById('heart-2');
 let heart3 = document.getElementById('heart-3');
+let instructionsBox = document.getElementById('instructions');
 
 let gravity = 0.1;
 
@@ -70,6 +71,7 @@ window.onload = () => {                                                         
         heart1.className = '';                                                                          // <-- re-display our "health hearts" when new game starts (removing "hide-hearts" class from element). 
         heart2.className = '';
         heart3.className = '';
+        instructionsBox.className = 'hide';
 
         const playerObject = {
             img: playerImage,
@@ -153,7 +155,7 @@ window.onload = () => {                                                         
                     } else {
                         reduceHealth();
                         if(playerObject.health === 0) {
-                            ctx.drawImage(gameOverImage, 275, 80, 450, 420);                            // <-- once health is zero we'll draw the "game over" image to canvas. 
+                            ctx.drawImage(gameOverImage, 275, 80, 450, 420);                            // <-- once health is zero we'll draw the "game over" image to canvas... It will clear once updateGameCanvas is invoked again (= push start game button)
                             return;                                                                     // <-- after checking if health is now 0, we'll return - stopping the updateGameCanvas "loop".
                         }
                     };
@@ -175,13 +177,13 @@ window.onload = () => {                                                         
 
             switch(playerObject.health){                                                                // <-- based on current health, hide another heart from screen. 
                 case 2:
-                    heart1.className = 'hide-heart';
+                    heart1.className = 'hide';
                     break;
                 case 1:
-                    heart2.className = 'hide-heart';
+                    heart2.className = 'hide';
                     break;
                 case 0:
-                    heart3.className = 'hide-heart';
+                    heart3.className = 'hide';
                     break;
             }
         };
