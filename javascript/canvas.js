@@ -1,11 +1,19 @@
 let scoreCounter = document.getElementById('score-counter');
 let gravity = 0.1;
 
-const donutImage = new Image();                                                                         // <-- we load our images using the image contstructor - which essentially creates a new element in the DOM.
+
+
+const playerImage = new Image();                                                                        // <-- Load our images using the image contstructor which essentially creates a new element in the DOM.                                                      
+playerImage.src = './images/player.png';
+
+const donutImage = new Image();                                                                       
 donutImage.src = './images/donut1.png';
 
 const ballImage = new Image();
 ballImage.src = './images/bowling_ball.png'
+
+
+
 
 class FallingObject {                                                                                   // <-- falling object generation/creation class
     constructor(ctx, image, type){                                                                      // <-- when doing so, we'll provide our context (our 2D drawing surface), a randomly seleted image (donut or ball) & and a type 'donut' or 'bowling ball'.
@@ -14,16 +22,16 @@ class FallingObject {                                                           
       this.img = image;
       this.width = 60;
       this.height = 49;
-      this.x = Math.floor(Math.random() * (1000 - this.width + 1));                                     // <-- beginning x between 1 & 940 (canvas with minues object width).
-      this.y = -24;
-      this.vy = 1;                                                                                     // <-- negative should allow for the object to seem like it started a bit above canvas - rather than a object appearing instantly at top. 
+      this.x = Math.floor(Math.random() * (1000 - this.width + 1));                                     // <-- beginning x location selected randomly between 1 & 940 (canvas with minues object width).
+      this.y = -24;                                                                                     // <-- negative should allow for the object to seem like it started a bit above canvas - rather than a object appearing instantly at top.
+      this.vy = 1;                                                                                      
     }
     
-    move(){
+    move(){                                                                                             // <-- We will repeatedly call this method in our "updateGameCanvas" loop below, which will increment the y axis by 1 each time... causing the object to "fall", once drawn of course (traverse the screen top to bottom).
       this.y += 1;
     }
     draw(){
-      this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+      this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);                            // <-- When called from "updateGameCanvas" loop below, here we actually "re-draw" the object on the canvas. 
     }
     leftBorder() {
         return this.x;
@@ -37,7 +45,7 @@ class FallingObject {                                                           
     bottomBorder() {
         return this.y + this.height;
     }
-    isOffBottomOfCanvas(){                                                                              // <-- when invoked it will check for the object to see if y is greater than the canvas height.  
+    isOffBottomOfCanvas(){                                                                              // <-- when method invoked it will check for the object to see if it's current y value is greater than the canvas height (i.e, is it complely off the canvas out of view).  
        return this.y > 600;
     }
 
@@ -57,9 +65,6 @@ window.onload = () => {                                                         
         let numFrame = 0;
         let score = 0;
         scoreCounter.innerText = score;                                                                 // <-- set score and corresponding DOM element "back to start" = 0 points/score.
-    
-        const playerImage = new Image();                                                                // <-- we load our player image and assign the source. 
-        playerImage.src = './images/player.png';
 
         const playerObject = {
             img: playerImage,
@@ -151,7 +156,7 @@ window.onload = () => {                                                         
                 }
             }
 
-            stopId = window.requestAnimationFrame(updateGameCanvas);                                            // <-- might want to change to setinterval after to run every 16 milliseconds - smooth out the animations.
+            stopId = window.requestAnimationFrame(updateGameCanvas);                                    // <-- might want to change to setinterval after to run every 16 milliseconds - smooth out the animations.
         };
 
         function increaseScore() {                                                                      // <-- increment "score" by 10 points and print latest "score" to DO, should only occur if object collided with was a donut.
@@ -175,7 +180,6 @@ window.onload = () => {                                                         
         });
         
         document.addEventListener('mousemove', e => {
-            //playerObject.x = (e.clientX - gameCanvas.width/2)
             playerObject.x = e.clientX - gameCanvas.width/2
         });
 
