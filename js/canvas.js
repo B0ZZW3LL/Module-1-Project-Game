@@ -14,6 +14,9 @@ donutImage.src = './images/donut1.png';
 const ballImage = new Image();
 ballImage.src = './images/bowling_ball.png'
 
+const gameOverImage = new Image();
+gameOverImage.src = './images/gameover.png'
+
 
 class FallingObject {                                                                                   // <-- falling object generation/creation class
     constructor(ctx, image, type){                                                                      // <-- when doing so, we'll provide our context (our 2D drawing surface), a randomly seleted image (donut or ball) & and a type 'donut' or 'bowling ball'.
@@ -51,8 +54,6 @@ class FallingObject {                                                           
 
 };
 
-// In reviewing race car game lab - looks like most if not all is within the below start game function.
-
 window.onload = () => {                                                                                 //<-- DOM structure is not available until window load.
     document.getElementById('start-button').onclick = () => {
       startGame();
@@ -65,6 +66,10 @@ window.onload = () => {                                                         
         let numFrame = 0;
         let score = 0;
         scoreCounter.innerText = score;                                                                 // <-- set score and corresponding DOM element "back to start" = 0 points/score.
+        
+        heart1.className = '';                                                                          // <-- re-display our "health hearts" when new game starts (removing "hide-hearts" class from element). 
+        heart2.className = '';
+        heart3.className = '';
 
         const playerObject = {
             img: playerImage,
@@ -148,6 +153,7 @@ window.onload = () => {                                                         
                     } else {
                         reduceHealth();
                         if(playerObject.health === 0) {
+                            ctx.drawImage(gameOverImage, 275, 80, 450, 420);                            // <-- once health is zero we'll draw the "game over" image to canvas. 
                             return;                                                                     // <-- after checking if health is now 0, we'll return - stopping the updateGameCanvas "loop".
                         }
                     };
@@ -175,7 +181,7 @@ window.onload = () => {                                                         
                     heart2.className = 'hide-heart';
                     break;
                 case 0:
-                    heart2.className = 'hide-heart';
+                    heart3.className = 'hide-heart';
                     break;
             }
         };
