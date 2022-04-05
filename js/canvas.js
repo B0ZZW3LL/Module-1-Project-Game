@@ -1,7 +1,9 @@
 let scoreCounter = document.getElementById('score-counter');
+let heart1 = document.getElementById('heart-1');
+let heart2 = document.getElementById('heart-2');
+let heart3 = document.getElementById('heart-3');
+
 let gravity = 0.1;
-
-
 
 const playerImage = new Image();                                                                        // <-- Load our images using the image contstructor which essentially creates a new element in the DOM.                                                      
 playerImage.src = './images/player.png';
@@ -11,8 +13,6 @@ donutImage.src = './images/donut1.png';
 
 const ballImage = new Image();
 ballImage.src = './images/bowling_ball.png'
-
-
 
 
 class FallingObject {                                                                                   // <-- falling object generation/creation class
@@ -165,7 +165,19 @@ window.onload = () => {                                                         
         };
 
         function reduceHealth() {
-            playerObject.health --;
+            playerObject.health --;                                                                     // <-- reduce health by 1
+
+            switch(playerObject.health){                                                                // <-- based on current health, hide another heart from screen. 
+                case 2:
+                    heart1.className = 'hide-heart';
+                    break;
+                case 1:
+                    heart2.className = 'hide-heart';
+                    break;
+                case 0:
+                    heart2.className = 'hide-heart';
+                    break;
+            }
         };
 
         window.addEventListener('keydown', event => {
