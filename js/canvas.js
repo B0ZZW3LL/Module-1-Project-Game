@@ -145,7 +145,7 @@ window.onload = () => {                                                         
             }
 
             if(numFrame % 90 === 0) {
-                fallingObjectArray.push(new FallingObject(ctx, donutImage, 'donut'));                   // <-- let make sure there is pleny of donuts to chase. 
+                fallingObjectArray.push(new FallingObject(ctx, donutImage, 'donut'));                   // <-- let make sure there is plenty of donuts to chase. 
             }
         
             numFrame += 1;
@@ -154,7 +154,7 @@ window.onload = () => {                                                         
 
             playerObject.draw();
 
-            if(fallingObjectArray[0].isOffBottomOfCanvas()){                                            // <-- We assume and check if the first object remaining in the array is below the bottom border - then remove from array.  Seemed like good "house keeping" from race care lab. 
+            if(fallingObjectArray[0].isOffBottomOfCanvas()){                                            // <-- We assume and check if the first object in the array is below the bottom border - then remove from array.  Seemed like good "house keeping" from race care lab. 
                 fallingObjectArray.shift();
             }
 
@@ -168,7 +168,6 @@ window.onload = () => {                                                         
                 if((fallingObjectArray[i].x + fallingObjectArray[i].width) + fallingObjectArray[i].vx > gameCanvas.width || fallingObjectArray[i].x + fallingObjectArray[i].vx < 0) {
                     fallingObjectArray[i].vx *= -1;                                                     // <-- if falling object hits left or right canvas border we switch direction of vx, keeping the object "in play"
                 }
-
             }
             
             for(let i = 0; i < fallingObjectArray.length; i++) { 
@@ -183,7 +182,6 @@ window.onload = () => {                                                         
                             return;                                                                     // <-- after checking if health is now 0, we'll return - stopping the updateGameCanvas "loop".
                         }
                     };
-
                     fallingObjectArray.splice([i], 1);                                                  // <-- remove the object collided with from the array. 
                 }
             }
@@ -198,7 +196,6 @@ window.onload = () => {                                                         
 
         function reduceHealth() {
             playerObject.health --;                                                                     // <-- reduce health by 1
-
             switch(playerObject.health){                                                                // <-- based on current health, hide another heart from screen. 
                 case 2:
                     heart1.className = 'hide';
