@@ -3,7 +3,6 @@
     src: url('./fonts/ds-digib.ttf');
   }
 
-
 body {
     margin: 0px;
 }
@@ -31,6 +30,7 @@ body {
 }
 
 h1 {
+    font-family: 'Permanent Marker', cursive;
     text-align: center;
     background-color: #49545c;
     margin: 0px;
@@ -83,6 +83,7 @@ h4 {
 }
 
 #start-button {
+    font-family: 'Permanent Marker', cursive;
     font-size: 28px;
     font-weight: bold;
     margin: 10px 0px;
@@ -94,6 +95,18 @@ h4 {
     box-shadow: 2px 2px 4px 4px #1f2326;
 }
 
+#start-button:hover {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 10px 0px;
+    width: 230px;
+    height: 70px;
+    border-radius: 10px;
+    background: linear-gradient(#d4ff3b, #fbfcf7);
+    border: 5px solid blue;
+    box-shadow: 2px 2px 4px 4px hsl(134, 94%, 49%);
+}
+
 #credits {
     margin-top: 40px;
 }
@@ -102,4 +115,5 @@ h4 {
     color: white;
     font-size: 22px;
     text-decoration: none;
+    font-style: italic
 }
