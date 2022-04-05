@@ -86,7 +86,7 @@ h4 {
 
 #health-bar {
     display: flex;
-    align-content: center;
+    justify-content: center;
     align-items: center;
     border: 2px solid black;
     border-radius: 5px;
@@ -94,6 +94,7 @@ h4 {
     height: 40px;
     margin-top: 30px;
     margin-bottom: 5px;
+    width: 200px;
 }
 
 #health-bar img {

@@ -27,15 +27,22 @@ class FallingObject {                                                           
       this.width = 60;
       this.height = 49;
       this.x = Math.floor(Math.random() * (1000 - this.width + 1));                                     // <-- beginning x location selected randomly between 1 & 940 (canvas with minues object width).
-      this.y = -24;                                                                                     // <-- negative should allow for the object to seem like it started a bit above canvas - rather than a object appearing instantly at top.
+      this.y = -40;                                                                                     // <-- negative should allow for the object to seem like it started a bit above canvas - rather than a object appearing instantly at top.
+      this.vx = this.randomVX();                                                                        // <-- we call our method below to return to us a random number between -10 <-> 10 (but not 0).
       this.vy = 1;                                                                                      
     }
     
+    randomVX(){
+        let xyNumber = (Math.floor(Math.random() * 10 + 1));
+        let xySign = (Math.floor(Math.random() * 100) % 2 === 0) ?'-' :''; 
+        return Number(xySign + xyNumber);
+    }
+
     move(){                                                                                             // <-- We will repeatedly call this method in our "updateGameCanvas" loop below, which will increment the y axis by 1 each time... causing the object to "fall", once drawn of course (traverse the screen top to bottom).
-      this.y += 1;
+      this.y += 1.5;
     }
     draw(){
-      this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);                            // <-- When called from "updateGameCanvas" loop below, here we actually "re-draw" the object on the canvas. 
+        this.ctx.drawImage(this.img, this.x, this.y, this.width, this.height);                            // <-- When called from "updateGameCanvas" loop below, here we actually "re-draw" the object on the canvas. 
     }
     leftBorder() {
         return this.x;
@@ -108,7 +115,7 @@ window.onload = () => {                                                         
             bottom() {
                 return this.y + this.height;
             },
-            collision(aFallingObject){ //access aligned bounding box
+            collision(aFallingObject){ 
                 return !(this.bottom() < aFallingObject.topBorder() || this.top() > aFallingObject.bottomBorder() || this.right() < aFallingObject.leftBorder() || this.left() > aFallingObject.rightBorder());
             }
 
@@ -119,13 +126,26 @@ window.onload = () => {                                                         
 
         function updateGameCanvas() {
 
-            if(numFrame % 70 === 0) {
-                let objectSelector = (Math.floor(Math.random() * 100) % 2 === 0) ?'A' :'B';             // <-- Randomly choose which "object image" to use, downside = what if they are different sizes.. 
+            if(numFrame % 50 === 0) {
+                let objectSelector = (Math.floor(Math.random() * 100) % 2 === 0) ?'A' :'B';             // <-- Randomly choose which fallingObject to generate
                     if(objectSelector === 'A') {
                         fallingObjectArray.push(new FallingObject(ctx, donutImage, 'donut')); 
                     } else {
                        fallingObjectArray.push(new FallingObject(ctx, ballImage, 'bowling ball'));
                     }
+            }
+
+            if(numFrame % 75 === 0) {
+                let objectSelector = (Math.floor(Math.random() * 100) % 2 === 0) ?'A' :'B';             // <-- Randomly choose which fallingObject to generate
+                    if(objectSelector === 'A') {
+                        fallingObjectArray.push(new FallingObject(ctx, donutImage, 'donut')); 
+                    } else {
+                       fallingObjectArray.push(new FallingObject(ctx, ballImage, 'bowling ball'));
+                    }
+            }
+
+            if(numFrame % 90 === 0) {
+                fallingObjectArray.push(new FallingObject(ctx, donutImage, 'donut'));                   // <-- let make sure there is pleny of donuts to chase. 
             }
         
             numFrame += 1;
@@ -133,7 +153,6 @@ window.onload = () => {                                                         
             ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);                                   // <-- Clear the previous before drawing the new, else you'll get a "drag" effect. 
 
             playerObject.draw();
-            //playerObject.x += playerObject.vx;
 
             if(fallingObjectArray[0].isOffBottomOfCanvas()){                                            // <-- We assume and check if the first object remaining in the array is below the bottom border - then remove from array.  Seemed like good "house keeping" from race care lab. 
                 fallingObjectArray.shift();
@@ -145,6 +164,11 @@ window.onload = () => {                                                         
                 fallingObjectArray[i].draw();
                 fallingObjectArray[i].vy += gravity;                                                    // <-- with each draw we apply "gravity" = acceleration on the y axies is increase with each "draw".
                 fallingObjectArray[i].y += fallingObjectArray[i].vy;
+                fallingObjectArray[i].x += fallingObjectArray[i].vx;
+                if((fallingObjectArray[i].x + fallingObjectArray[i].width) + fallingObjectArray[i].vx > gameCanvas.width || fallingObjectArray[i].x + fallingObjectArray[i].vx < 0) {
+                    fallingObjectArray[i].vx *= -1;                                                     // <-- if falling object hits left or right canvas border we switch direction of vx, keeping the object "in play"
+                }
+
             }
             
             for(let i = 0; i < fallingObjectArray.length; i++) { 
