@@ -27,8 +27,8 @@ class FallingObject {                                                           
       this.ctx = ctx;
       this.type = type
       this.img = image;
-      this.width = 60;
-      this.height = 49;
+      this.width = 60;  
+      this.height = 50;  
       this.x = Math.floor(Math.random() * (1000 - this.width + 1));                                     // <-- beginning x location selected randomly between 1 & 940 (canvas with minues object width).
       this.y = -40;                                                                                     // <-- negative should allow for the object to seem like it started a bit above canvas - rather than a object appearing instantly at top.
       this.vx = this.randomVX();                                                                        // <-- we call our method below to return to us a random number between -10 <-> 10 (but not 0).
@@ -213,7 +213,7 @@ window.onload = () => {                                                         
         };
 
         function increaseHealth() {
-            switch(playerObject.health){                                                                // <-- based on current health, let's add a heart back to the screen and only increase health to a max of 3. 
+            switch(playerObject.health){                                                                // <-- based on current health, let's add a heart back to the screen and increase health to a max of 3. 
                 case 1:
                     heart2.className = '';
                     break;
