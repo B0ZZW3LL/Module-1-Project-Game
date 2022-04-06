@@ -101,22 +101,22 @@ window.onload = () => {                                                         
             },
 
             draw: function() {
-                if(this.x > 940 ? this.x = 940 : this.x);                                               // <-- Try to keep the player within the game area
+                if(this.x > 940 ? this.x = 940 : this.x);                                               // <-- Try to keep the player within the game area.
                 if(this.x <= 0 ? this.x = 0 : this.x);
                 ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
             },
 
-            left() {
-                return this.x;
+            left() {                                                                                    // <-- padded out the edge definition a bit, allowing for "closer encounters" without triggering a collision. 
+                return this.x + 15;
             },
             right() {
-                return this.x + this.width;
+                return (this.x - 15) + this.width;
             },
             top() {
-                return this.y;
+                return this.y + 20;
             },
             bottom() {
-                return this.y + this.height;
+                return (this.y - 20) + this.height;
             },
             collision(aFallingObject){ 
                 return !(this.bottom() < aFallingObject.topBorder() || this.top() > aFallingObject.bottomBorder() || this.right() < aFallingObject.leftBorder() || this.left() > aFallingObject.rightBorder());
@@ -137,7 +137,7 @@ window.onload = () => {                                                         
             }
 
             if(numFrame % 75 === 0) {
-                let objectSelector = (Math.floor(Math.random() * 100) % 2 === 0) ?'A' :'B';             // <-- Randomly generate falling objects
+                let objectSelector = (Math.floor(Math.random() * 100) % 2 === 0) ?'A' :'B';             // <-- Randomly more generate falling objects
                     if(objectSelector === 'A') {
                         fallingObjectArray.push(new FallingObject(ctx, donutImage, 'donut')); 
                     } else {
