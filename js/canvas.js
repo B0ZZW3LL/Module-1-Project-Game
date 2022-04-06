@@ -15,6 +15,9 @@ donutImage.src = './images/donut1.png';
 const ballImage = new Image();
 ballImage.src = './images/bowling_ball.png'
 
+const hotDogImage = new Image();
+hotDogImage.src = './images/hotdog.png'
+
 const gameOverImage = new Image();
 gameOverImage.src = './images/gameover.png'
 
@@ -118,14 +121,14 @@ window.onload = () => {                                                         
             collision(aFallingObject){ 
                 return !(this.bottom() < aFallingObject.topBorder() || this.top() > aFallingObject.bottomBorder() || this.right() < aFallingObject.leftBorder() || this.left() > aFallingObject.rightBorder());
             }
-        }
+        };
 
         const fallingObjectArray = [];
 
         function updateGameCanvas() {
 
             if(numFrame % 50 === 0) {
-                let objectSelector = (Math.floor(Math.random() * 100) % 2 === 0) ?'A' :'B';             // <-- Randomly choose which fallingObject to generate
+                let objectSelector = (Math.floor(Math.random() * 100) % 2 === 0) ?'A' :'B';             // <-- Randomly generate falling objects
                     if(objectSelector === 'A') {
                         fallingObjectArray.push(new FallingObject(ctx, donutImage, 'donut')); 
                     } else {
@@ -134,7 +137,7 @@ window.onload = () => {                                                         
             }
 
             if(numFrame % 75 === 0) {
-                let objectSelector = (Math.floor(Math.random() * 100) % 2 === 0) ?'A' :'B';             // <-- Randomly choose which fallingObject to generate
+                let objectSelector = (Math.floor(Math.random() * 100) % 2 === 0) ?'A' :'B';             // <-- Randomly generate falling objects
                     if(objectSelector === 'A') {
                         fallingObjectArray.push(new FallingObject(ctx, donutImage, 'donut')); 
                     } else {
@@ -144,6 +147,15 @@ window.onload = () => {                                                         
 
             if(numFrame % 90 === 0) {
                 fallingObjectArray.push(new FallingObject(ctx, donutImage, 'donut'));                   // <-- let make sure there is plenty of donuts to chase. 
+            }
+
+            if(numFrame % 200 === 0) {
+                let objectSelector = (Math.floor(Math.random() * 100) % 2 === 0) ?'A' :'B';             // <-- Randomly generate falling objects, this one should introduce a hot dog every so often.
+                    if(objectSelector === 'A') {
+                        fallingObjectArray.push(new FallingObject(ctx, donutImage, 'donut')); 
+                    } else {
+                       fallingObjectArray.push(new FallingObject(ctx, hotDogImage, 'hot dog'));
+                    }
             }
         
             numFrame += 1;
@@ -164,37 +176,59 @@ window.onload = () => {                                                         
                 fallingObjectArray[i].y += fallingObjectArray[i].vy;
                 fallingObjectArray[i].x += fallingObjectArray[i].vx;
                 if((fallingObjectArray[i].x + fallingObjectArray[i].width) + fallingObjectArray[i].vx > gameCanvas.width || fallingObjectArray[i].x + fallingObjectArray[i].vx < 0) {
-                    fallingObjectArray[i].vx *= -1;                                                     // <-- if falling object hits left or right canvas border we switch direction of vx, keeping the object "in play"
+                    fallingObjectArray[i].vx *= -1;                                                     // <-- if falling object hits left or right canvas border we switch direction of vx, keeping the object "in play".
                 }
             }
             
             for(let i = 0; i < fallingObjectArray.length; i++) { 
                 if(playerObject.collision(fallingObjectArray[i])) {
 
-                    if(fallingObjectArray[i].type === 'donut') {                                        // <-- if object collided with was a donut, add points... else it was a bowling ball so remove one from player health. 
-                        increaseScore();
+                    if(fallingObjectArray[i].type === 'donut' || fallingObjectArray[i].type === 'hot dog') {       // <-- if playerObject collides with donut or hot dog call "increaseScore".  Else it was a bowling ball so remove one from player health. 
+                        increaseScore(fallingObjectArray[i].type); 
+
                     } else {
                         reduceHealth();
-                        if(playerObject.health === 0) {
-                            ctx.drawImage(gameOverImage, 275, 80, 450, 420);                            // <-- once health is zero we'll draw the "game over" image to canvas... It will clear once updateGameCanvas is invoked again (= push start game button)
-                            return;                                                                     // <-- after checking if health is now 0, we'll return - stopping the updateGameCanvas "loop".
+                        if(playerObject.health === 0) {                                                 // <-- once health is zero we'll draw the "game over" image to canvas... It will clear once updateGameCanvas is invoked again (= push start game button)
+                            ctx.drawImage(gameOverImage, 275, 80, 450, 420);                            // <-- after checking if health is now 0, we'll return - stopping the updateGameCanvas "loop".
+                            return;                                                                     
                         }
                     };
                     fallingObjectArray.splice([i], 1);                                                  // <-- remove the object collided with from the array. 
                 }
             }
-
             stopId = window.requestAnimationFrame(updateGameCanvas);                                    // <-- might want to change to setinterval after to run every 16 milliseconds - smooth out the animations.
         };
 
-        function increaseScore() {                                                                      // <-- increment "score" by 10 points and print latest "score" to DO, should only occur if object collided with was a donut.
-            score += 10;
+        function increaseScore(objectType) {                                                            // <-- Increase score accordingly based on which object player collided with.  If it was a hot dog, also call increaseHealth... as we will also increase this. 
+            switch (objectType) {
+                case 'donut':
+                    score += 25;
+                    break;
+                case 'hot dog':
+                    score += 100;
+                    increaseHealth();
+                    break;
+            }
             scoreCounter.innerText = score;
+        };
+
+        function increaseHealth() {
+            switch(playerObject.health){                                                                // <-- based on current health, let's add a heart back to the screen and only increase health to a max of 3. 
+                case 1:
+                    heart2.className = '';
+                    break;
+                case 2:
+                    heart1.className = '';
+                    break;
+            }
+            if (playerObject.health < 3){
+                playerObject.health ++; 
+            }
         };
 
         function reduceHealth() {
             playerObject.health --;                                                                     // <-- reduce health by 1
-            switch(playerObject.health){                                                                // <-- based on current health, hide another heart from screen. 
+            switch(playerObject.health){                                                                // <-- based on current health, hide another heart from screen... 
                 case 2:
                     heart1.className = 'hide';
                     break;
